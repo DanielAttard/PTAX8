@@ -1,2 +1,2 @@
-# This is to ensure we ignore the file with password info
-app.yaml
+#  This is to ensure we ignore the file with password info
+*.yaml
