@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>MPAC Disclosure</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jmespath/0.15.0/jmespath.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/js/ptl.js"></script>
+    <link rel="stylesheet" href="/css/ptl.css">
+    <link rel="stylesheet" href="/css/jq.css">
+  </head>
+  <body>
+    <table>
+    <tr>
+      <td>
+        <td>
+          {% if md_curl is not defined %}
+          <table id="tblmdfind">
+            <tr>
+              <td>
+                <form class="form" method="POST" action="#">
+                  <img src="/img/mpac.png" height="42" width="84" alt="MPAC Disclosure">
+                  <label for="mddata">Disclosure</label>
+                <input id='mddata' placeholder="Find Property....">
+              </form>
+              </td>
+            </tr>
+          </table>
+          {% endif %}
+          <table id="tblmdshow" style="display:none;">
+             <tr>
+               <td>
+                  <form id="frmmdshow" method="POST" action="/mpac/disclosure">
+                        <input id="RN" name="ROLL_NUMBER" type="text" maxlength="19" placeholder="Roll Number" />
+                        <br><br>
+                        <input id="md_lookup" type="submit" value="Lookup" class="submit"/>
+                    </form>
+                    <br>
+                </td>
+             </tr>
+          </table>
+          <form id="frmmdreset" style="display:none;">
+          <input id="md_reset" type="button" value="Reset Form" class="submit">
+          </form>
+        </td>
+    </tr>
+</table>
+<table id="tblmdcurlresult">
+  <tr>
+    <td>
+      {% if md_curl is defined %}
+      <form id="frmmdreset2">
+        <input id="md_reset2" type="button" value="MPAC Disclosure"  class="submit">
+        <br><br>
+        {# <input id="md_dt" name="DiscType" type="text" placeholder="type" />
+        <br><br>
+        <input id="md_du" name="DiscUrl"  type="text" placeholder="url" /> #}
+      </form>
+      <br>
+      {# {{ include('v_md.html') }} #}
+      {# <pre id="md_curl_display">{{ md_curl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
+      <script>
+      var d2 = {{ md_curl|json_encode|raw }};
+      $.getScript("/js/extract.js");
+      </script>
+      {% endif %}
+      {% set md_curl = null %}
+    </td>
+  </tr>
+</table>
+</body>
+</html>

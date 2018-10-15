@@ -15,23 +15,23 @@
     <tr>
       <td>
         <td>
-          {% if ptl_curl is not defined %}
-          <table id="tblptlfind">
+        {% if curl_result is not defined %}
+          <table id="ptl_find">
             <tr>
               <td>
-                <form class="form" method="POST" action="#">
+                <form class="ptl_form" method="POST" action="#">
                   <img src="/img/ptl.png" height="42" width="42" alt="Property Tax Lookup">
-                  <label for="ptldata">Property Tax Lookup</label>
-                <input id='ptldata' placeholder="Find a property....">
+                  <label for="ptl_data">Property Tax Lookup</label>
+                <input id='ptl_data' placeholder="Find a property....">
               </form>
               </td>
             </tr>
           </table>
           {% endif %}
-          <table id="tblptlshow" style="display:none;">
+          <table id="tbl_ptl_lookup" style="display:none;">
              <tr>
                <td>
-                  <form id="frmptlshow" method="POST" action="/toronto/tax">
+                  <form id="ptl_form" method="POST" action="/toronto/tax">
                         <input id="RN" name="ROLL_NUMBER" type="text" maxlength="28" placeholder="Roll Number" />
                         <br><br>
                         <input id="LN" name="LAST_NAME" type="text" maxlength="28" placeholder="Owner Name" />
@@ -46,28 +46,28 @@
                 </td>
              </tr>
           </table>
-          <form id="frmptlreset" style="display:none;">
+          <form id="frm_ptl_reset" style="display:none;">
           <input id="ptl_reset" type="button" value="Reset Form" class="submit">
           </form>
         </td>
     </tr>
 </table>
-<table id="tblptlcurlresult">
+<table id="curlresult">
   <tr>
     <td>
-      {% if ptl_curl is defined %}
-      <form id="frmptlreset2">
+      {% if curl_result is defined %}
+      <form id="frm_ptl_reset2">
         <input id="ptl_reset2" type="button" value="Property Tax Lookup"  class="submit">
       </form>
       <br>
-      {{ include('v_ptl.html') }}
-      <pre id="ptl_curl_display">{{ ptl_curl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+      {{ include('v.html') }}
+      {# <pre id="curl_display">{{ curl_result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
       <script>
-      var d1 = {{ ptl_curl|json_encode|raw }};
+      var d1 = {{ curl_result|json_encode|raw }};
       $.getScript("/js/extract.js");
       </script>
       {% endif %}
-      {% set ptl_curl = null %}
+      {% set curl_result = null %}
     </td>
   </tr>
 </table>

@@ -1,3 +1,6 @@
+///// GENERAL VARIABLES ///////////
+///// d1 is Property Tax Lookup PTL
+///// d2 is MPAC Disclosure MD
 var formatter = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 0
 });
@@ -7,6 +10,26 @@ var formatter_currency = new Intl.NumberFormat("en-US", {
     minimumFractionDigits: 2
 });
 var search = jmespath.search;
+
+///////////////// THIS SECTION IS MPAC DISCLOSURE ///////////////////
+var arr = [];
+var arrayLength = d2.length;
+console.log (arrayLength);
+
+for (var i = 0; i < arrayLength; i++) {
+    var DiscdisplayName = search(d2[i], "displayName").replace('Level','L').replace('"',' ');
+    console.log("Disclosure Type: " + JSON.stringify(DiscdisplayName).replace('Level','L').replace('"',' ')); 
+    var DiscUrl = search(d2[i], "url");
+    console.log("Disclosure Url: " + JSON.stringify(DiscUrl));
+    $("#frmmdreset2").append("<input type='button' class='overflow' onclick=\"window.open('" 
+    + JSON.stringify(DiscUrl).replace(/"/g,"") + "')\" id='mpacdisc" + i + "' value='" 
+    + JSON.stringify(DiscdisplayName).replace(/"/g,"") + "' /> ").append("<br><br>");  
+};
+
+// class="overflow ellipsis"
+// class='overflow ellipsis'
+
+///////////////// THIS SECTION IS PROPERTY TAX LOOKUP ///////////////////
 ///////////////////////////// ACCOUNT DETAILS  /////////////
 var Type1 = search(d1, "ServiceAccount[].Type");
 console.log("Type: " + Type1);

@@ -16,10 +16,10 @@ img{
 #t_cvatype, #t_cva17, #t_cva18, #t_cva19, #t_cva20 {
   font-size: medium;
 }
-#tblptlfind, #tblmdfind {
+#ptl_find {
   width: 100%;
 }
-#tblptlcurlresult, #tblmdcurlresult {
+#curlresult {
 /* width: 600px; */
 width: 100%;
 table-layout: auto;
@@ -31,10 +31,11 @@ table-layout: auto;
 body {
 background-color: #f3f3f3;
 }
-form {
+ptl_form {
 width: 315px;
 max-width: 98%;
 }
+
 table.owner, table.assessment, table.taxes, table.payments, table.appeals {
   font-family: 'PT Sans', sans-serif;
   border-collapse: collapse;
@@ -51,6 +52,12 @@ th {
 th, td {
   padding: 4px;
 }
+/* .taxes td:nth-child(1),
+.taxes td:nth-child(2),
+.taxes td:nth-child(3),
+.taxes td:nth-child(4) {
+  width: 25%;
+} */
 form input {
 width: 315px;
 font-size: 20px;
@@ -62,15 +69,15 @@ line-height: 1;
 border-radius: 7px;
 font-family: 'PT Sans', sans-serif;
 }
-#ptldata, #mddata {
+#allData {
   width: 315px;
 }
-#ptl_curl_display, #md_curl_display {
+#curl_display {
   /* width: 600px; */
   white-space: pre-wrap;
   word-break: keep-all;
 }
-#ptl_reset, #md_reset {
+#reset {
   /* width: 315px; */
   margin-left: 5px;
   text-align: left;
@@ -78,31 +85,14 @@ font-family: 'PT Sans', sans-serif;
   border-color: #a38b31;
   color: white;
 }
-
-#ptl_reset2, #md_reset2 {
+#reset2 {
+  /* width: 600px; */
   text-align: center;
   background-color: #557846;
   border-color  : #a38b31;
   color: white;
 }
-
-.overflow {
-  width: 315px;
-/* outline: 1px solid #000; */
-/* margin: 0 0 2em 0; */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; 
-}
-
-/* #mpacdisc0, #mpacdisc1 {
-  text-align: center;
-  background-color: #557846;
-  border-color  : #6b9658;
-  color: white;
-} */
-
-#ptl_lookup, #md_lookup {
+#lookup {
   /* width: 315px; */
   text-align: left;
   background-color: #6b9658;
@@ -121,12 +111,6 @@ color: #fff;
 padding: 6px;
 font-size: 11px;
 }
-form small {
-  color: #888;
-  font-size: 1em;
-  margin-top: 10px;
-  display: block;
-}
 label {
 color: #999;
 display: inline;
@@ -134,6 +118,12 @@ text-transform: uppercase;
 font-size: 18px;
 font-weight: bold;
 letter-spacing: 0.05em
+}
+form small {
+color: #888;
+font-size: 1em;
+margin-top: 10px;
+display: block;
 }
 pre {
   font-family: 'PT Sans', sans-serif;
