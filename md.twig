@@ -51,19 +51,23 @@
     <td>
       {% if md_curl is defined %}
       <form id="frmmdreset2">
-        <input id="md_reset2" type="button" value="MPAC Disclosure"  class="submit">
-        <br><br>
-        {# <input id="md_dt" name="DiscType" type="text" placeholder="type" />
-        <br><br>
-        <input id="md_du" name="DiscUrl"  type="text" placeholder="url" /> #}
+        <input id="md_reset2" type="button" onmouseover='' style='cursor: pointer' value="MPAC Disclosure"  class="submit"><br><br>
       </form>
       <br>
-      {# {{ include('v_md.html') }} #}
-      {# <pre id="md_curl_display">{{ md_curl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
       <script>
-      var d2 = {{ md_curl|json_encode|raw }};
-      $.getScript("/js/extract.js");
+      var arr = [];
+      var d2 = {{ md_curl|json_encode|raw }};            
+      var arrayLength = d2.length;
+      var search = jmespath.search;
+      for (var i = 0; i < arrayLength; i++) {
+          var DiscdisplayName = search(d2[i], "displayName").replace('Level','L').replace('"',' ');
+          var DiscUrl = search(d2[i], "url");
+          $("#frmmdreset2").append("<input type='button' class='overflow' onmouseover='' style='cursor: pointer' onclick=\"window.open('" 
+          + JSON.stringify(DiscUrl).replace(/"/g,"") + "')\" id='mpacdisc" + i + "' value='" 
+          + JSON.stringify(DiscdisplayName).replace(/"/g,"").replace(/\d{15}/g,"") + "' /> ").append("<br><br>");  
+      };
       </script>
+      {# <pre id="md_curl_display">{{ md_curl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre> #}
       {% endif %}
       {% set md_curl = null %}
     </td>
