@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+{# <!DOCTYPE HTML> #}
 <html lang="en">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="/js/amp.js"></script>
     <link rel="stylesheet" href="/css/amp.css">
+    <link rel="stylesheet" href="/css/jq-ui.css">
     <link rel="stylesheet" href="/css/jq.css">
   </head>
   <body>
@@ -36,7 +37,7 @@
                         <br><br>
                         {# <input id="AD" name="ADDRESS" type="text" maxlength="28" placeholder="Address" />
                         <br><br> #}
-                        <input id="RN" name="ROLL_NUMBER" type="text" maxlength="15" placeholder="Roll Number" />
+                        <input id="RN" name="rn" type="text" maxlength="15" placeholder="Roll Number" />
                         <br><br>
                         <input id="amp_lookup" type="submit" value="Lookup" class="submit"/>
                     </form>
@@ -58,12 +59,11 @@
         <input id="amp_reset2" type="button" value="AboutMyProperty"  class="submit">
       </form>
       <br>
-      {{ include('v_amp.html') }}
-      <pre id="amp_curl_display">{{ amp_curl|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
       <script>
       var d1 = {{ amp_curl|json_encode|raw }};
       $.getScript("/js/extract.js");
       </script>
+      {{ include('amp_tabs.html', {'rollnum': rnum, 'google_maps_sv__of_subject': google_maps_sv__of_subject, 'poicount': poicount, 'ampuser': ampuser}) }}  
       {% endif %}
       {% set amp_curl = null %}
     </td>

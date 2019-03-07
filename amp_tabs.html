@@ -1,0 +1,22 @@
+<div id="tabs">
+  <ul>
+    <li><a href="#tabs-1">Property Info</a></li>
+    <li><a href="#tabs-2">iLookAbout</a></li>
+    <li><a href="#tabs-3">StreetView</a></li>
+    <li><a href="#tabs-4">JSON</a></li>
+  </ul>
+  <div id="tabs-1">
+    {{ include('v_amp.html', {'rollnum': rnum, 'google_maps_sv__of_subject': google_maps_sv__of_subject, 'poicount': poicount, 'ampuser': ampuser}) }}  
+  </div>
+  <div id="tabs-2">
+    {# <img id="ilookimage" border="" src="https://mpac.ilookabout.com/thumbnail/?size=1024&Arn={{ rollnum }}" height="768" width="1024"> #}
+    <img id="ilookimage" border="" src="https://mpac.ilookabout.com/thumbnail/?size=1024&Arn={{ rollnum }}">
+  </div>
+  <div id="tabs-3">
+    {# <iframe width="1024" height="768" frameborder="0" style="border:0" src="{{ google_maps_sv__of_subject }}" allowfullscreen></iframe> #}
+    <iframe width="600" height="480" frameborder="0" style="border:0" src="{{ google_maps_sv__of_subject }}" allowfullscreen></iframe>
+  </div>
+  <div id="tabs-4">
+    <pre id="amp_curl_display">{{ amp_curl|json_encode(constant('JSON_PRETTY_PRINT'))|replace({'\"':''}) }}</pre>
+  </div>
+</div>

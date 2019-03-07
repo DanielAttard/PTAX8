@@ -10,72 +10,75 @@ $app->get('/', function () use ($app) {
     return $twig->render('amp.twig');
 });
 
-$app->get('/am/p', function () use ($app) {
-    $twig = $app['twig'];
-    define('USER', 'Debdulal');
-    define('PASS', '4Ew3vM!CitEmhTT');
-    $COOKIE_DATA = '';
-	$LOGGED_USER = doLogin ();
-	if (!isLoggedIn ()){
-		die ("Login Failed");
-    }
-    $POIList = getPOIList();
-	if ( count($POIList) > 94 ){
-		die ("As of ".date("M d, Y h:i a e").", ".USER." has used ".count($POIList)." of 100 Snapshot Views.  Please visit 'My Profile' in AboutMyProperty.ca and switch to another property.");
-    } else {
-        $tmp = array_values($POIList);
-        $tmp2 = end($tmp);
-        $rn     = (isset ($_REQUEST['rn']) && !empty ($_REQUEST['rn'])) ? $_REQUEST['rn'] : $tmp2;
-        $poiJSON = getPOIDetailsJSON ($rn);
-        return $twig->render('amp.twig', [
-            'amp_curl' => json_decode($poiJSON), 
-            'rnum' => $rn, 
-            'ampuser' => USER, 
-            'subjectaddress' => "https://www.google.com/maps/embed/v1/streetview?location="."25+Elm+Ave%2c+Toronto"."&key=AIzaSyB8wub48JNwyNav0lY_lCcR-0nAS8-bcVE",
-            'poicount' => count($POIList)
-            ]);    
-    }
-});
+// $app->post('/', function () use ($app) {
+//     $twig = $app['twig'];
+//     return $twig->render('amp.twig');
+// });
+
+// $app->get('/am/p', function () use ($app) {
+//     $twig = $app['twig'];
+//     return $twig->render('amp.twig');
+// });
+
 
 $app->post('/am/p', function () use ($app) {
     $twig = $app['twig'];   
+
     define('USER', 'Debdulal');
     define('PASS', '4Ew3vM!CitEmhTT');
+
     $COOKIE_DATA = '';
 	$LOGGED_USER = doLogin ();
+
 	if (!isLoggedIn ()){
 		die ("Login Failed");
     }
+ 
     $POIList = getPOIList();
-	if ( count($POIList) > 94 ){
-		die ("As of ".date("M d, Y h:i a e").", ".USER." has used ".count($POIList)." of 100 Snapshot Views.  Please visit 'My Profile' in AboutMyProperty.ca and switch to another property.");
-    } else {
-        $tmp = array_values($POIList);
-        $tmp2 = end($tmp);
-        $rn     = (isset ($_POST['rn']) && !empty ($_POST['rn'])) ? $_POST['rn'] : $tmp2;
-        $poiJSON = getPOIDetailsJSON ($rn);
-        ////////////// GET LAT LON OF SUBJECT//////////////////////////
-        $conn = new PDO(getenv('MYSQL_DSN'), getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
-        $conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        $stmt = $conn->prepare("SELECT CONCAT(tblontario.v3_lat, ',', tblontario.v3_lng) AS LATLNG
-        FROM tblontario WHERE tblontario.RollNum = :rollnumber ");        
-        $stmt->execute(array(':rollnumber' => $rn));
-        $results = $stmt->fetchAll(PDO::FETCH_OBJ);
-        foreach($results as $row) {
-            foreach($row as $key => $value) {
-                $latlng = $value;
-            }
-        }
-        $conn = null;
-        // Learning how to pull APTS data from Google and pass into a TWIG template 
-        return $twig->render('amp.twig', [
-            'amp_curl' => json_decode($poiJSON), 
-            'rnum' => $rn, 
-            'ampuser' => USER, 
-            'google_maps_sv__of_subject' => "https://www.google.com/maps/embed/v1/streetview?location=".$latlng."&key=AIzaSyB8wub48JNwyNav0lY_lCcR-0nAS8-bcVE",
-            'poicount' => count($POIList)
-            ]);    
-    }
+    $poiCount = count($POIList);
+    //use POST rn if used, else use last in POIList, which unfortunately seems to be ordered by rollnum instead of entry date
+    $rn     = (isset ($_POST['ROLL_NUMBER']) && !empty ($_POST['ROLL_NUMBER'])) ? $_POST['ROLL_NUMBER'] : end(array_values($POIList));
+    $poiJSON = getPOIDetailsJSON ($rn);
+
+//     //$LOGIN_STATUS = isLoggedIn();	 
+//     //dumpVar('LOGIN_STATUSxxx:'.$LOGIN_STATUS);
+
+//     if (!isLoggedIn ()){
+//         dumpVar('Need to login...');
+//         define('USER', 'Debdulal');
+//         define('PASS', '4Ew3vM!CitEmhTT');    
+//         //$starttime = microtime(true);
+//         //$COOKIE_FILE = '';
+//         $LOGGED_USER = doLogin ();	        
+//         $rn = '190410169000200';
+//         $poiJSON = getPOIDetailsJSON ($rn);
+//         //$POIList = getPOIList();
+//         //dumpVar ($POIList);
+//         //if rn is not posted, then use the first/last from getPOIList
+//         //end(array_values($POIList))
+//         //dumpVar (end(array_values($POIList)));
+//         // $rn     = (isset ($_POST['ROLL_NUMBER']) && !empty ($_POST['ROLL_NUMBER'])) ? $_POST['ROLL_NUMBER'] : end(array_values($POIList));
+         dumpVar ("As of ".date("Y-m-d H:i:s").", ".USER." has used ".count($POIList)." of 100 Snapshot Views.");
+//         //$rn     = (isset ($_POST['ROLL_NUMBER']) && !empty ($_POST['ROLL_NUMBER'])) ? $_POST['ROLL_NUMBER'] : '190410169000300';
+//         //dumpVar ("Data for ".$_POST['rollNum']." retrieved in ".round($timediff, 1)." seconds:");
+
+//   //      dumpVar (json_decode($poiJSON));
+//         //echo "stop";    
+//       //  exit;
+// //        return $twig->render('amp.twig', ['amp_curl' => json_decode($poiJSON,true)]);
+        return $twig->render('amp.twig', ['amp_curl' => json_decode($poiJSON)]);
+
+// 	} else {
+//         dumpVar('Already logged in');
+//         $_REQUEST['ROLL_NUMBER'] = trim ($_REQUEST['ROLL_NUMBER']);
+//         $rn     = (isset ($_REQUEST['ROLL_NUMBER']) && !empty ($_REQUEST['ROLL_NUMBER'])) ? $_REQUEST['ROLL_NUMBER'] : '190410123000200';
+//         $poiJSON = getPOIDetailsJSON ($rn);
+//         return $twig->render('amp.twig', ['amp_curl' => json_decode($poiJSON,true)]);
+
+//     }
+
+
+
 });
 
 return $app;
@@ -83,6 +86,7 @@ return $app;
 function getPOIDetailsJSON ($rn) {
     global $COOKIE_DATA;
     $target_url = "https://aboutmyproperty.ca/property/json/$rn/poi";
+
     $headers   = [];
     $headers[] = 'Host: aboutmyproperty.ca';
     $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0';
@@ -192,6 +196,8 @@ function isLoggedIn () {
     curl_setopt($s, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0');
     $contents = curl_exec($s);
 
+    //dumpVar($contents);
+
     if (preg_match('/Sign Out/ims', $contents, $match1)
         || preg_match('/\/auth\/logout/ims', $contents, $match2)
     ) {
@@ -222,12 +228,15 @@ function sizeCokkie($cookie)
    $cookies = explode(';', $cookie);
    $cookies = array_unique($cookies);
    $cookie  = rtrim(implode(';', $cookies), ';');
+
    return $cookie;
 }
 
 function getPOIList () {
     global $COOKIE_DATA;
+    //dumpVar("COOKIE_DATA:".$COOKIE_DATA);
     $target_url = "https://aboutmyproperty.ca/neighbourhood/list/mode/poi";
+
     $headers   = [];
     $headers[] = 'Host: aboutmyproperty.ca';
     $headers[] = 'User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:64.0) Gecko/20100101 Firefox/64.0';
@@ -252,7 +261,10 @@ function getPOIList () {
     // curl_setopt($s, CURLOPT_COOKIEFILE, $COOKIE_FILE);
     // now using this:
     curl_setopt($s, CURLOPT_COOKIE, $COOKIE_DATA);
-    $contents = curl_exec($s);    
+    
+    $contents = curl_exec($s);
+    //dumpVar($contents);
+    
     sleep (1);
     curl_close($s);
 

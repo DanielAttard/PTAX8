@@ -45,6 +45,7 @@ $(document).ready(function () {
     $(this).css("border-color", "#902020");
     $(this).val("Reset Form");
   }, function () {
+    //this must be amp green
     $(this).css("background-color", "#557846");
     $(this).css("border-color", "#6b9658");
     $(this).val("AboutMyProperty.ca");
@@ -130,12 +131,16 @@ $(document).ready(function () {
       }
     }
   });
+
+
+
   function showampdata() {
     if ($('#ampdata').val() == "Address Not Found" || $('#ampdata').val().length < 15) {
       $('#ampdata').val("");
     } else {
       $("#tblampshow").show();
       $("#frmampreset").show();
+      $("#imgamp").show();      
       var ampdata = $("#ampdata").val();
       //console.log(ampdata);
 
@@ -177,12 +182,12 @@ $(document).ready(function () {
 
       //what format will amp require?
       //this format is for toronto property tax lookup
-      //var rn = rn_p1.concat("-", rn_p2, "-", rn_p3, "-", rn_p4, "-", rn_p5, "-", rn_p6, "-", rn_p7, "-", rn_p8);
-      //var rn = rn.slice(0, -1).concat(RollSub);
+      //var rnxx = rn_p1.concat("-", rn_p2, "-", rn_p3, "-", rn_p4, "-", rn_p5, "-", rn_p6, "-", rn_p7, "-", rn_p8);
+      //var rnxx = rn.slice(0, -1).concat(RollSub);
       //var desc_rn = "Roll Number:" + rn;      
 
       $("#RN").val(rn);
-      $("#RN").prop("disabled", true);
+//      $("#RN").prop("disabled", true);
 
       // display address in search box
       $("#ampdata").val(add);
@@ -190,26 +195,35 @@ $(document).ready(function () {
     }
   }
 
+    $("#tblampfind form").submit(function( event ) {
+        alert("Roll Number must be 15-digits, formatted as:\n'000000000000000'.\nPlease try again.");
+        return false;
+    });
+
+      $( "#tabs" ).tabs({
+        collapsible: true
+      });
+
 
 // Restricts input for the given textbox to the given inputFilter.
-function setInputFilter(textbox, inputFilter) {
-  ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
-    textbox.addEventListener(event, function() {
-      if (inputFilter(this.value)) {
-        this.oldValue = this.value;
-        this.oldSelectionStart = this.selectionStart;
-        this.oldSelectionEnd = this.selectionEnd;
-      } else if (this.hasOwnProperty("oldValue")) {
-        this.value = this.oldValue;
-        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
-      }
-    });
-  });
-}
+// function setInputFilter(textbox, inputFilter) {
+//   ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+//     textbox.addEventListener(event, function() {
+//       if (inputFilter(this.value)) {
+//         this.oldValue = this.value;
+//         this.oldSelectionStart = this.selectionStart;
+//         this.oldSelectionEnd = this.selectionEnd;
+//       } else if (this.hasOwnProperty("oldValue")) {
+//         this.value = this.oldValue;
+//         this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+//       }
+//     });
+//   });
+// }
 
-// Install input filters.
-  setInputFilter(document.getElementById("ampdata"), function(value) {
-    return /^\d*$/.test(value); });
+// // Install input filters.
+//   setInputFilter(document.getElementById("ampdata"), function(value) {
+//     return /^\d*$/.test(value); });
   
 //  Request URL: https://aboutmyproperty.ca/property/json/190402445002600/poi
 

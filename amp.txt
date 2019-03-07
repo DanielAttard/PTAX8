@@ -94,3 +94,50 @@ console.log("Hi Dan2".concat({{ curl_result|json_encode(constant('JSON_PRETTY_PR
 
 
       https://weblog.west-wind.com/posts/2011/May/21/Web-Browser-Control-Specifying-the-IE-Version#Using-the-X--UA--Compatible-HTML-Meta-Tag
+
+
+//console.log("dan test: " + (foo));
+
+$(document).ready(function () {
+    // var iLookAboutURL  = "https://propertytaxservices.com/images/aa.jpg" ;
+    // var iLookAboutURL2 = "https://mpac.ilookabout.com/thumbnail/?size=1024&Arn=190410169000300"  ;
+
+    // var iLookAboutURL  = "https://mpac.ilookabout.com/thumbnail/?size=1024&Arn=" + roll_num.substring(0,15) ;
+    // var iLookAboutURL2 = "https://propertytaxservices.com/images/amp.jpeg" ;
+    // console.log("iLookAboutURL: " + (iLookAboutURL));           
+    // // $("#ilookimage").attr("src", iLookAboutURL);
+    // $('#ilookimage').on({
+    //     'click': function() {
+    //          var src = ($(this).attr("src") === iLookAboutURL)
+    //             ? iLookAboutURL2
+    //             : iLookAboutURL;
+    //          $(this).attr("src", src);
+    //     }
+    // });
+
+    // var iLookAboutURL3  = "http://placehold.it/500x500" ;
+    // var iLookAboutURL4 = "http://placehold.it/300x300" ;
+    // $("#ilookimage2").attr("src", iLookAboutURL3);
+    // $('#ilookimage2').on({
+    //     'click': function() {
+    //          var src = ($(this).attr("src") === iLookAboutURL3)
+    //             ? iLookAboutURL4
+    //             : iLookAboutURL3;
+    //          $(this).attr("src", src);
+    //          $(this).attr("border", 2);
+    //     }
+    // });
+
+    // var img = $("<img />").attr('src', 'https://mpac.ilookabout.com/thumbnail/?size=1024&Arn=190410169000300')
+    // .on('load', function() {
+    //     if (!this.complete || typeof this.naturalWidth == "undefined" || this.naturalWidth == 0) {
+    //         alert('broken image!');
+    //     } else {
+    //         alert('ok image!');
+    //         alert(img);
+    //         $("#ilookimage").append(img);
+    //     }
+    // });
+
+
+});
