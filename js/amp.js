@@ -132,6 +132,19 @@ $(document).ready(function () {
     }
   });
 
+  $("#ampdata2").autocomplete({
+    source: "/samp2.php",
+    minLength: 5,
+    close: function (event, ui) {
+      var ev = event.originalEvent;
+      if (ev.type === "keydown" && ev.keyCode === $.ui.keyCode.ESCAPE) {
+        $(this).val("");
+      } else {         
+        alert($('#ampdata2').val().length);
+      }
+    }
+  });
+
 
 
   function showampdata() {
@@ -226,5 +239,7 @@ $(document).ready(function () {
 //     return /^\d*$/.test(value); });
   
 //  Request URL: https://aboutmyproperty.ca/property/json/190402445002600/poi
+
+
 
 });
